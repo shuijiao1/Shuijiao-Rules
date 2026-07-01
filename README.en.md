@@ -24,6 +24,9 @@ Personal Surge / Mihomo routing rules for Shuijiao. The repository intentionally
 | `China` | `7640` | `Surge/China.list` | `Mihomo/China.yaml` |
 | `LAN` | `145` | `Surge/LAN.list` | `Mihomo/LAN.yaml` |
 | `Ads` | `905` | `Surge/Ads.list` | `Mihomo/Ads.yaml` |
+| `Streaming` | `1852` | `Surge/Streaming.list` | `Mihomo/Streaming.yaml` |
+| `Game` | `689` | `Surge/Game.list` | `Mihomo/Game.yaml` |
+| `Pay` | `380` | `Surge/Pay.list` | `Mihomo/Pay.yaml` |
 
 ## Recommended order
 
@@ -42,7 +45,15 @@ Proxy   -> Proxy
 FINAL/MATCH -> Proxy
 ```
 
-`China` includes domains, keywords, and China BGP CIDR rules. `AppleCN` intentionally excludes iCloud. `Ads` uses AWAvenue only and avoids larger blocklists to reduce false positives.
+Optional standby rules:
+
+```text
+Streaming -> Final / Streaming
+Game      -> Final / Game
+Pay       -> Final / Pay
+```
+
+`China` includes domains, keywords, and China BGP CIDR rules. `AppleCN` intentionally excludes iCloud. `Ads` uses AWAvenue only and avoids larger blocklists to reduce false positives. `Streaming`, `Game`, and `Pay` are provided as optional standby rules and are not meant to be enabled by default.
 
 ## Attribution
 

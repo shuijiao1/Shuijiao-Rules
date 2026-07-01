@@ -26,6 +26,9 @@
 | `China` | `7640` | `Surge/China.list` | `Mihomo/China.yaml` |
 | `LAN` | `145` | `Surge/LAN.list` | `Mihomo/LAN.yaml` |
 | `Ads` | `905` | `Surge/Ads.list` | `Mihomo/Ads.yaml` |
+| `Streaming` | `1852` | `Surge/Streaming.list` | `Mihomo/Streaming.yaml` |
+| `Game` | `689` | `Surge/Game.list` | `Mihomo/Game.yaml` |
+| `Pay` | `380` | `Surge/Pay.list` | `Mihomo/Pay.yaml` |
 
 ## 分类说明
 
@@ -40,8 +43,13 @@
 - `China`：中国大陆常见域名、关键词与 BGP IP 段，建议直连。
 - `LAN`：局域网、本地域名、私有地址段，建议直连。
 - `Ads`：轻量去广告规则，来源于 AWAvenue Ads Rule；不合并其它大体量拦截集合，以控制误杀风险。
+- `Streaming`：备用流媒体规则，覆盖 Netflix、Disney+、HBO/Max、Prime Video、Spotify、YouTube/YouTube Music、Hulu、Twitch、TikTok 等。
+- `Game`：备用游戏平台规则，覆盖 Steam、Epic、Battle.net、Xbox、PlayStation、Nintendo、EA、Ubisoft、Riot、Rockstar、GeForce Now 等。
+- `Pay`：备用传统支付规则，覆盖 PayPal、Stripe、Wise、Revolut、Visa、Mastercard、American Express、Payoneer、Airwallex 等。
 
 ## 推荐优先级
+
+当前常用配置可以只引用主规则，备用规则按需插入：
 
 ```text
 LAN     -> DIRECT
@@ -58,7 +66,15 @@ Proxy   -> Proxy
 FINAL/MATCH -> Proxy
 ```
 
-优先级原则：`LAN` 永远最前；`Ads` 放在 `China` 前面，避免国内广告域名被直连规则提前命中；`AppleCN` 早于 `Apple`；`AI` 早于 `Google` / `Proxy`；具体分类早于 `Proxy`。
+备用规则建议策略：
+
+```text
+Streaming -> Final / Streaming
+Game      -> Final / Game
+Pay       -> Final / Pay
+```
+
+优先级原则：`LAN` 永远最前；`Ads` 放在 `China` 前面，避免国内广告域名被直连规则提前命中；`AppleCN` 早于 `Apple`；`AI` 早于 `Google` / `Proxy`；具体分类早于 `Proxy`。备用规则不默认启用，避免当前配置变复杂。
 
 ## Surge 示例
 
@@ -82,34 +98,6 @@ FINAL,Proxy
 
 ```yaml
 rule-providers:
-  lan:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/LAN.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/LAN.yaml
-  ads:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Ads.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Ads.yaml
-  applecn:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/AppleCN.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/AppleCN.yaml
-  china:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/China.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/China.yaml
   ai:
     type: http
     behavior: classical
@@ -117,61 +105,9 @@ rule-providers:
     interval: 86400
     path: ./rules/Shuijiao/AI.yaml
     url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/AI.yaml
-  telegram:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Telegram.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Telegram.yaml
-  crypto:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Crypto.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Crypto.yaml
-  speedtest:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Speedtest.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Speedtest.yaml
-  google:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Google.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Google.yaml
-  apple:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Apple.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Apple.yaml
-  proxy:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/Proxy.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Proxy.yaml
 
 rules:
-  - RULE-SET,lan,DIRECT
-  - RULE-SET,ads,REJECT
-  - RULE-SET,applecn,DIRECT
-  - RULE-SET,china,DIRECT
   - RULE-SET,ai,AI
-  - RULE-SET,telegram,Telegram
-  - RULE-SET,crypto,Crypto
-  - RULE-SET,speedtest,Proxy
-  - RULE-SET,google,Proxy
-  - RULE-SET,apple,Proxy
-  - RULE-SET,proxy,Proxy
   - MATCH,Proxy
 ```
 
