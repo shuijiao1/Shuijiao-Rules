@@ -5,6 +5,7 @@
 水饺自用的 Surge / Mihomo 分流规则。仓库只保留两个规则目录：`Surge/` 和 `Mihomo/`。
 
 - 主要参考：[`SukkaW/Surge`](https://github.com/SukkaW/Surge) 与 [`blackmatrix7/ios_rule_script`](https://github.com/blackmatrix7/ios_rule_script)
+- 去广告规则：使用 [`TG-Twilight/AWAvenue-Ads-Rule`](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)，文件名叫 `Ads`，不叫 `Reject`；`REJECT` 是使用时的动作，不是规则内容名称
 - 输出格式：Surge 使用 `.list`，Mihomo 使用 `behavior: classical` 的 `.yaml`
 - 内容一致：同名的 Surge 与 Mihomo 文件使用同一份规则内容，只是文件格式不同
 - CDN 规则：已经合并进 `Proxy`，不单独提供 `CDN` 文件
@@ -20,10 +21,11 @@
 | `Crypto` | `239` | `Surge/Crypto.list` | `Mihomo/Crypto.yaml` |
 | `Google` | `751` | `Surge/Google.list` | `Mihomo/Google.yaml` |
 | `Apple` | `183` | `Surge/Apple.list` | `Mihomo/Apple.yaml` |
-| `AppleCN` | `9` | `Surge/AppleCN.list` | `Mihomo/AppleCN.yaml` |
-| `Proxy` | `7446` | `Surge/Proxy.list` | `Mihomo/Proxy.yaml` |
-| `ChinaDomain` | `3690` | `Surge/ChinaDomain.list` | `Mihomo/ChinaDomain.yaml` |
+| `AppleCN` | `8` | `Surge/AppleCN.list` | `Mihomo/AppleCN.yaml` |
+| `Proxy` | `7439` | `Surge/Proxy.list` | `Mihomo/Proxy.yaml` |
+| `China` | `7640` | `Surge/China.list` | `Mihomo/China.yaml` |
 | `LAN` | `145` | `Surge/LAN.list` | `Mihomo/LAN.yaml` |
+| `Ads` | `905` | `Surge/Ads.list` | `Mihomo/Ads.yaml` |
 
 ## 分类说明
 
@@ -33,36 +35,39 @@
 - `Crypto`：Binance、Bybit、OKX、Coinbase、Kraken、KuCoin、Gate、MEXC、Bitget、HTX/Huobi、行情、钱包、DeFi 与链上浏览器。
 - `Google`：Google、YouTube、Gmail、Drive、Firebase 等常规 Google 服务；Gemini / AI Studio 等 AI 域名优先放入 `AI`。
 - `Apple`：Apple 国际服务、Apple Media、Apple TV、Apple Developer、Apple CDN 与 Apple IP。
-- `AppleCN`：中国区 Apple / iCloud 域名，建议直连。
+- `AppleCN`：参考 Sukka 的中国区 Apple 规则，但刻意移除 iCloud；建议直连。
 - `Proxy`：常见国外站点、国外 CDN、开发者服务、社交服务等；已合并 CDN。
-- `ChinaDomain`：中国大陆常见域名，建议直连；只包含域名规则，不包含中国 IP 大表。
+- `China`：中国大陆常见域名、关键词与 BGP IP 段，建议直连。
 - `LAN`：局域网、本地域名、私有地址段，建议直连。
+- `Ads`：去广告规则，采用 AWAvenue Ads Rule，避免使用 Sukka / blackmatrix7 里过大的 reject 集合造成误杀。
 
 ## 推荐优先级
 
 ```text
-LAN          -> DIRECT
-AppleCN      -> DIRECT
-ChinaDomain  -> DIRECT
-AI           -> AI / Proxy
-Telegram     -> Telegram / Proxy
-Crypto       -> Crypto / Proxy
-Speedtest    -> Proxy
-Google       -> Proxy
-Apple        -> Proxy
-Proxy        -> Proxy
-FINAL/MATCH  -> Proxy
+LAN     -> DIRECT
+Ads     -> REJECT
+AppleCN -> DIRECT
+China   -> DIRECT
+AI      -> AI / Proxy
+Telegram-> Telegram / Proxy
+Crypto  -> Crypto / Proxy
+Speedtest -> Proxy
+Google  -> Proxy
+Apple   -> Proxy
+Proxy   -> Proxy
+FINAL/MATCH -> Proxy
 ```
 
-优先级原则：`LAN` 永远最前；`AppleCN` 早于 `Apple`；`AI` 早于 `Google` / `Proxy`；具体分类早于 `Proxy`。
+优先级原则：`LAN` 永远最前；`Ads` 放在 `China` 前面，避免国内广告域名被直连规则提前命中；`AppleCN` 早于 `Apple`；`AI` 早于 `Google` / `Proxy`；具体分类早于 `Proxy`。
 
 ## Surge 示例
 
 ```ini
 [Rule]
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/LAN.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Ads.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/AppleCN.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/ChinaDomain.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/China.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/AI.list,AI
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Telegram.list,Telegram
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Crypto.list,Crypto
@@ -77,13 +82,34 @@ FINAL,Proxy
 
 ```yaml
 rule-providers:
-  telegram:
+  lan:
     type: http
     behavior: classical
     format: yaml
     interval: 86400
-    path: ./rules/Shuijiao/Telegram.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Telegram.yaml
+    path: ./rules/Shuijiao/LAN.yaml
+    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/LAN.yaml
+  ads:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    path: ./rules/Shuijiao/Ads.yaml
+    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Ads.yaml
+  applecn:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    path: ./rules/Shuijiao/AppleCN.yaml
+    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/AppleCN.yaml
+  china:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    path: ./rules/Shuijiao/China.yaml
+    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/China.yaml
   ai:
     type: http
     behavior: classical
@@ -91,13 +117,13 @@ rule-providers:
     interval: 86400
     path: ./rules/Shuijiao/AI.yaml
     url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/AI.yaml
-  speedtest:
+  telegram:
     type: http
     behavior: classical
     format: yaml
     interval: 86400
-    path: ./rules/Shuijiao/Speedtest.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Speedtest.yaml
+    path: ./rules/Shuijiao/Telegram.yaml
+    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Telegram.yaml
   crypto:
     type: http
     behavior: classical
@@ -105,6 +131,13 @@ rule-providers:
     interval: 86400
     path: ./rules/Shuijiao/Crypto.yaml
     url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Crypto.yaml
+  speedtest:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    path: ./rules/Shuijiao/Speedtest.yaml
+    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Speedtest.yaml
   google:
     type: http
     behavior: classical
@@ -119,13 +152,6 @@ rule-providers:
     interval: 86400
     path: ./rules/Shuijiao/Apple.yaml
     url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Apple.yaml
-  applecn:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/AppleCN.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/AppleCN.yaml
   proxy:
     type: http
     behavior: classical
@@ -133,25 +159,12 @@ rule-providers:
     interval: 86400
     path: ./rules/Shuijiao/Proxy.yaml
     url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/Proxy.yaml
-  chinadomain:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/ChinaDomain.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/ChinaDomain.yaml
-  lan:
-    type: http
-    behavior: classical
-    format: yaml
-    interval: 86400
-    path: ./rules/Shuijiao/LAN.yaml
-    url: https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Mihomo/LAN.yaml
 
 rules:
   - RULE-SET,lan,DIRECT
+  - RULE-SET,ads,REJECT
   - RULE-SET,applecn,DIRECT
-  - RULE-SET,chinadomain,DIRECT
+  - RULE-SET,china,DIRECT
   - RULE-SET,ai,AI
   - RULE-SET,telegram,Telegram
   - RULE-SET,crypto,Crypto
@@ -168,5 +181,6 @@ rules:
 
 - [`SukkaW/Surge`](https://github.com/SukkaW/Surge)
 - [`blackmatrix7/ios_rule_script`](https://github.com/blackmatrix7/ios_rule_script)
+- [`TG-Twilight/AWAvenue-Ads-Rule`](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)
 
 本仓库仅做格式转换、去重、合并和个人补丁维护。使用前请自行确认上游项目的授权、免责声明和适用范围。
