@@ -24,6 +24,7 @@
 | `AppleCN` | `8` | `Surge/AppleCN.list` | `Mihomo/AppleCN.yaml` |
 | `Proxy` | `7439` | `Surge/Proxy.list` | `Mihomo/Proxy.yaml` |
 | `China` | `7640` | `Surge/China.list` | `Mihomo/China.yaml` |
+| `Douyin` | `30` | `Surge/Douyin.list` | `Mihomo/Douyin.yaml` |
 | `LAN` | `145` | `Surge/LAN.list` | `Mihomo/LAN.yaml` |
 | `Ads` | `905` | `Surge/Ads.list` | `Mihomo/Ads.yaml` |
 | `Streaming` | `1852` | `Surge/Streaming.list` | `Mihomo/Streaming.yaml` |
@@ -41,6 +42,7 @@
 - `AppleCN`：参考 Sukka 的中国区 Apple 规则，但刻意移除 iCloud；建议直连。
 - `Proxy`：常见国外站点、国外 CDN、开发者服务、社交服务等；已合并 CDN。
 - `China`：中国大陆常见域名、关键词与 BGP IP 段，建议直连。
+- `Douyin`：备用抖音规则，覆盖抖音、抖音电商、抖音 CDN/视频域名；这是国内抖音，不是国际版 TikTok。
 - `LAN`：局域网、本地域名、私有地址段，建议直连。
 - `Ads`：轻量去广告规则，来源于 AWAvenue Ads Rule；不合并其它大体量拦截集合，以控制误杀风险。
 - `Streaming`：备用流媒体规则，覆盖 Netflix、Disney+、HBO/Max、Prime Video、Spotify、YouTube/YouTube Music、Hulu、Twitch、TikTok 等。
@@ -69,6 +71,7 @@ FINAL/MATCH -> Proxy
 备用规则建议策略：
 
 ```text
+Douyin   -> DIRECT / Final
 Streaming -> Final / Streaming
 Game      -> Final / Game
 Pay       -> Final / Pay

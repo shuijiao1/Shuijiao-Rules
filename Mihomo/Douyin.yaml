@@ -1,0 +1,34 @@
+# NAME: Douyin
+# UPDATED: 2026-07-01
+# SOURCE: blackmatrix7/ios_rule_script, Shuijiao manual overrides
+payload:
+  - DOMAIN,lf3-static.bytednsdoc.com
+  - DOMAIN,v5-dy-o-abtest.zjcdn.com
+  - DOMAIN-SUFFIX,amemv.cn
+  - DOMAIN-SUFFIX,amemv.com
+  - DOMAIN-SUFFIX,amemv.net
+  - DOMAIN-SUFFIX,douyin.com
+  - DOMAIN-SUFFIX,douyinact.com
+  - DOMAIN-SUFFIX,douyinact.net
+  - DOMAIN-SUFFIX,douyincdn.com
+  - DOMAIN-SUFFIX,douyinclips.com
+  - DOMAIN-SUFFIX,douyinec.com
+  - DOMAIN-SUFFIX,douyinhanyu.com
+  - DOMAIN-SUFFIX,douyinliving.com
+  - DOMAIN-SUFFIX,douyinmusicclips.com
+  - DOMAIN-SUFFIX,douyinmusicvideo.com
+  - DOMAIN-SUFFIX,douyinpic.com
+  - DOMAIN-SUFFIX,douyinshortvideo.com
+  - DOMAIN-SUFFIX,douyinstatic.com
+  - DOMAIN-SUFFIX,douyinvideo.net
+  - DOMAIN-SUFFIX,douyinvod.com
+  - DOMAIN-SUFFIX,idouyinpic.com
+  - DOMAIN-SUFFIX,idouyinstatic.com
+  - DOMAIN-SUFFIX,idouyinvod.com
+  - DOMAIN-SUFFIX,iesdouyin.com
+  - DOMAIN-SUFFIX,iesdouyin.net
+  - DOMAIN-SUFFIX,ixigua.com
+  - DOMAIN-SUFFIX,ixiguavideo.com
+  - DOMAIN-SUFFIX,pstatp.com
+  - DOMAIN-SUFFIX,snssdk.com
+  - DOMAIN-SUFFIX,toutiao.com
