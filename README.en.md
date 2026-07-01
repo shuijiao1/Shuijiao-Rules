@@ -3,7 +3,7 @@
 Personal Surge / Mihomo routing rules for Shuijiao. The repository intentionally keeps only two rule directories: `Surge/` and `Mihomo/`.
 
 - Main references: [`SukkaW/Surge`](https://github.com/SukkaW/Surge) and [`blackmatrix7/ios_rule_script`](https://github.com/blackmatrix7/ios_rule_script)
-- Ads source: [`TG-Twilight/AWAvenue-Ads-Rule`](https://github.com/TG-Twilight/AWAvenue-Ads-Rule). The file is named `Ads`; `REJECT` is the action, not the ruleset name
+- `Ads` is sourced from [`TG-Twilight/AWAvenue-Ads-Rule`](https://github.com/TG-Twilight/AWAvenue-Ads-Rule) and is intended to be used with a `REJECT` policy
 - Surge outputs `.list`; Mihomo outputs `behavior: classical` `.yaml`
 - Same content: files with the same name share the same normalized rules; only the wrapper format differs
 - CDN is merged into `Proxy`
@@ -42,7 +42,7 @@ Proxy   -> Proxy
 FINAL/MATCH -> Proxy
 ```
 
-`China` includes domains, keywords, and China BGP CIDR rules. `AppleCN` intentionally excludes iCloud. `Ads` uses AWAvenue instead of larger Sukka/blackmatrix7 reject lists to reduce false positives.
+`China` includes domains, keywords, and China BGP CIDR rules. `AppleCN` intentionally excludes iCloud. `Ads` uses AWAvenue only and avoids larger blocklists to reduce false positives.
 
 ## Attribution
 

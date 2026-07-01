@@ -5,7 +5,7 @@
 水饺自用的 Surge / Mihomo 分流规则。仓库只保留两个规则目录：`Surge/` 和 `Mihomo/`。
 
 - 主要参考：[`SukkaW/Surge`](https://github.com/SukkaW/Surge) 与 [`blackmatrix7/ios_rule_script`](https://github.com/blackmatrix7/ios_rule_script)
-- 去广告规则：使用 [`TG-Twilight/AWAvenue-Ads-Rule`](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)，文件名叫 `Ads`，不叫 `Reject`；`REJECT` 是使用时的动作，不是规则内容名称
+- 去广告规则：`Ads` 来源于 [`TG-Twilight/AWAvenue-Ads-Rule`](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)，推荐搭配 `REJECT` 策略使用
 - 输出格式：Surge 使用 `.list`，Mihomo 使用 `behavior: classical` 的 `.yaml`
 - 内容一致：同名的 Surge 与 Mihomo 文件使用同一份规则内容，只是文件格式不同
 - CDN 规则：已经合并进 `Proxy`，不单独提供 `CDN` 文件
@@ -39,7 +39,7 @@
 - `Proxy`：常见国外站点、国外 CDN、开发者服务、社交服务等；已合并 CDN。
 - `China`：中国大陆常见域名、关键词与 BGP IP 段，建议直连。
 - `LAN`：局域网、本地域名、私有地址段，建议直连。
-- `Ads`：去广告规则，采用 AWAvenue Ads Rule，避免使用 Sukka / blackmatrix7 里过大的 reject 集合造成误杀。
+- `Ads`：轻量去广告规则，来源于 AWAvenue Ads Rule；不合并其它大体量拦截集合，以控制误杀风险。
 
 ## 推荐优先级
 
