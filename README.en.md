@@ -7,13 +7,14 @@ Personal Surge / Mihomo routing rules for Shuijiao. The repository intentionally
 - Surge outputs `.list`; Mihomo outputs `behavior: classical` `.yaml`
 - Same content: files with the same name share the same normalized rules; only the wrapper format differs
 - CDN is merged into `Proxy`
-- Updated: `2026-07-01`
+- Updated: `2026-07-09`
 
 ## Rule files
 
 | Rule | Count | Surge | Mihomo |
 |---|---:|---|---|
 | `Telegram` | `50` | `Surge/Telegram.list` | `Mihomo/Telegram.yaml` |
+| `GitHub` | `36` | `Surge/GitHub.list` | `Mihomo/GitHub.yaml` |
 | `AI` | `163` | `Surge/AI.list` | `Mihomo/AI.yaml` |
 | `Speedtest` | `128` | `Surge/Speedtest.list` | `Mihomo/Speedtest.yaml` |
 | `Crypto` | `239` | `Surge/Crypto.list` | `Mihomo/Crypto.yaml` |
@@ -38,6 +39,7 @@ AppleCN -> DIRECT
 China   -> DIRECT
 AI      -> AI / Proxy
 Telegram-> Telegram / Proxy
+GitHub  -> GitHub / Proxy
 Crypto  -> Crypto / Proxy
 Speedtest -> Proxy
 Google  -> Proxy
@@ -55,7 +57,7 @@ Game      -> Final / Game
 Pay       -> Final / Pay
 ```
 
-`China` includes domains, keywords, and China BGP CIDR rules. `Douyin` is for the mainland Douyin app and related CDN/video domains, not international TikTok. `AppleCN` intentionally excludes iCloud. `Ads` uses AWAvenue only and avoids larger blocklists to reduce false positives. `Douyin`, `Streaming`, `Game`, and `Pay` are provided as optional standby rules and are not meant to be enabled by default.
+`GitHub` covers GitHub, GitHub Assets/UserContent, GitHub Container Registry, and npm-related domains. `China` includes domains, keywords, and China BGP CIDR rules. `Douyin` is for the mainland Douyin app and related CDN/video domains, not international TikTok. `AppleCN` intentionally excludes iCloud. `Ads` uses AWAvenue only and avoids larger blocklists to reduce false positives. `Douyin`, `Streaming`, `Game`, and `Pay` are provided as optional standby rules and are not meant to be enabled by default.
 
 ## Attribution
 

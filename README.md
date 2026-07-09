@@ -9,13 +9,14 @@
 - 输出格式：Surge 使用 `.list`，Mihomo 使用 `behavior: classical` 的 `.yaml`
 - 内容一致：同名的 Surge 与 Mihomo 文件使用同一份规则内容，只是文件格式不同
 - CDN 规则：已经合并进 `Proxy`，不单独提供 `CDN` 文件
-- 更新时间：`2026-07-01`
+- 更新时间：`2026-07-09`
 
 ## 规则列表
 
 | 规则 | 条数 | Surge | Mihomo |
 |---|---:|---|---|
 | `Telegram` | `50` | `Surge/Telegram.list` | `Mihomo/Telegram.yaml` |
+| `GitHub` | `36` | `Surge/GitHub.list` | `Mihomo/GitHub.yaml` |
 | `AI` | `163` | `Surge/AI.list` | `Mihomo/AI.yaml` |
 | `Speedtest` | `128` | `Surge/Speedtest.list` | `Mihomo/Speedtest.yaml` |
 | `Crypto` | `239` | `Surge/Crypto.list` | `Mihomo/Crypto.yaml` |
@@ -34,6 +35,7 @@
 ## 分类说明
 
 - `Telegram`：Telegram 域名、ASN/IP 段。
+- `GitHub`：GitHub、GitHub Assets/UserContent、GitHub Container Registry、npm 相关域名。
 - `AI`：OpenAI / ChatGPT / Claude / Gemini / Grok / Perplexity / Poe / Copilot / Midjourney / Hugging Face / Mistral / Cursor / Windsurf 等 AI 服务。
 - `Speedtest`：Ookla Speedtest、Fast、Cloudflare Speed、M-Lab、LibreSpeed 以及常见测速节点。
 - `Crypto`：Binance、Bybit、OKX、Coinbase、Kraken、KuCoin、Gate、MEXC、Bitget、HTX/Huobi、行情、钱包、DeFi 与链上浏览器。
@@ -60,6 +62,7 @@ AppleCN -> DIRECT
 China   -> DIRECT
 AI      -> AI / Proxy
 Telegram-> Telegram / Proxy
+GitHub  -> GitHub / Proxy
 Crypto  -> Crypto / Proxy
 Speedtest -> Proxy
 Google  -> Proxy
@@ -77,7 +80,7 @@ Game      -> Final / Game
 Pay       -> Final / Pay
 ```
 
-优先级原则：`LAN` 永远最前；`Ads` 放在 `China` 前面，避免国内广告域名被直连规则提前命中；`AppleCN` 早于 `Apple`；`AI` 早于 `Google` / `Proxy`；具体分类早于 `Proxy`。备用规则不默认启用，避免当前配置变复杂。
+优先级原则：`LAN` 永远最前；`Ads` 放在 `China` 前面，避免国内广告域名被直连规则提前命中；`AppleCN` 早于 `Apple`；`AI` 早于 `Google` / `Proxy`；`GitHub` 早于 `Proxy`；具体分类早于 `Proxy`。备用规则不默认启用，避免当前配置变复杂。
 
 ## Surge 示例
 
@@ -89,6 +92,7 @@ RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/A
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/China.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/AI.list,AI
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Telegram.list,Telegram
+RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/GitHub.list,GitHub
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Crypto.list,Crypto
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Speedtest.list,Proxy
 RULE-SET,https://raw.githubusercontent.com/shuijiao1/Shuijiao-Rules/main/Surge/Google.list,Proxy
